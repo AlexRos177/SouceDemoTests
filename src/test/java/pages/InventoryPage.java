@@ -8,6 +8,8 @@ public class InventoryPage {
 
     private By inventoryContainer = By.id("inventory_container");
     private By firstItemAddButton = By.id("add-to-cart-sauce-labs-backpack");
+    private By secondItemAddButton = By.id("add-to-cart-sauce-labs-bolt-t-shirt");
+    private By thirdItemAddButton = By.id("add-to-cart-test.allthethings()-t-shirt-(red)");
     private By cartButton = By.id("shopping_cart_container");
 
     public InventoryPage(WebDriver driver) {
@@ -24,5 +26,10 @@ public class InventoryPage {
 
     public void goToCart() {
         driver.findElement(cartButton).click();
+    }
+
+    public void addSecondItemToCart() { driver.findElement(secondItemAddButton).click();}
+
+    public void addThirdItemToCart() { driver.findElement(thirdItemAddButton).click();
     }
 }

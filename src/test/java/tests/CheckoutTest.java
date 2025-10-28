@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,39 +14,46 @@ import pages.LoginPage;
 
 import java.time.Duration;
 
+@Epic("E-Commerce Platform")
+@Feature("Checkout Process")
 public class CheckoutTest extends BaseTest {
 
-    @Test
+    @Test(description = "Verify that a user can complete the full checkout flow successfully")
+    @Story("Complete purchase of an item")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Logs in, adds an item to the cart, enters checkout information, and verifies successful checkout completion.")
     public void checkoutFlowTest() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        // Login
-        LoginPage login = new LoginPage(driver);
-        login.login("standard_user", "secret_sauce");
+        Allure.step("Step 1: Log in with valid credentials", () -> {
+            LoginPage login = new LoginPage(driver);
+            login.login("standard_user", "secret_sauce");
+        });
 
-        // Add first item to cart
-        InventoryPage inventory = new InventoryPage(driver);
-        inventory.addFirstItemToCart();
-        inventory.goToCart();
+        Allure.step("Step 2: Add first item to the cart", () -> {
+            InventoryPage inventory = new InventoryPage(driver);
+            inventory.addFirstItemToCart();
+            inventory.goToCart();
+        });
 
-        // Proceed to Checkout
-        CartPage cart = new CartPage(driver);
-        cart.checkout();
+        Allure.step("Step 3: Proceed to checkout", () -> {
+            CartPage cart = new CartPage(driver);
+            cart.checkout();
+        });
 
-        // Wait until first name input is visible
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("first-name")));
+        Allure.step("Step 4: Enter checkout information", () -> {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("first-name")));
+            CheckoutPage checkout = new CheckoutPage(driver);
+            checkout.enterCheckoutInfo("John", "Doe", "12345");
+        });
 
-        // Enter checkout info
-        CheckoutPage checkout = new CheckoutPage(driver);
-        checkout.enterCheckoutInfo("John", "Doe", "12345");
+        Allure.step("Step 5: Finish checkout and verify success", () -> {
+            wait.until(ExpectedConditions.elementToBeClickable(By.id("finish")));
+            CheckoutPage checkout = new CheckoutPage(driver);
+            checkout.finishCheckout();
 
-        // Wait until Finish button is clickable
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("finish")));
-        checkout.finishCheckout();
-
-        // Wait until checkout complete message appears
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("complete-header")));
-
-        Assert.assertTrue(checkout.isCheckoutComplete(), "Checkout was not completed");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("complete-header")));
+            Assert.assertTrue(checkout.isCheckoutComplete(), "Checkout was not completed");
+        });
     }
 }

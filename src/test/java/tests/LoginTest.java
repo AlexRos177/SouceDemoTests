@@ -30,4 +30,26 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(login.getErrorMessage().contains("Username and password do not match"),
                 "Error message not displayed");
     }
+
+    @Test
+    public void invalidPasswordTest() {
+        Allure.step("Open login page");
+        Allure.step("Enter valid username and invalid password");
+        LoginPage login = new LoginPage(driver);
+        login.login("standard_user", "wrong_password");
+
+        Assert.assertTrue(login.getErrorMessage().contains("Username and password do not match"),
+                "Error message not displayed");
+    }
+
+    @Test
+    public void invalidUsernameTest() {
+        Allure.step("Open login page");
+        Allure.step("Enter invalid username and valid password");
+        LoginPage login = new LoginPage(driver);
+        login.login("new_user", "secret_sauce");
+
+        Assert.assertTrue(login.getErrorMessage().contains("Username and password do not match"),
+                "Error message not displayed");
+    }
 }
