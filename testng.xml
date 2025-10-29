@@ -16,6 +16,7 @@
             <class name="tests.RemoveFromCartTest"/>
             <class name="tests.LockedUserTest"/>
             <class name="tests.ProductDetailsTest"/>
+            <class name="tests.FooterLinksClickTest"/>
         </classes>
     </test>
 
