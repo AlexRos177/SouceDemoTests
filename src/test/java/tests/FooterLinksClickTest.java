@@ -14,12 +14,13 @@ import java.util.Set;
 
 @Epic("Website Navigation")
 @Feature("Footer Links")
+@Test(description = "Verify that all footer links open the correct pages. " +
+        "Logs in, clicks each footer link (X, Facebook, LinkedIn)")
+@Story("Footer link navigation")
+@Severity(SeverityLevel.CRITICAL)
+
 public class FooterLinksClickTest extends BaseTest {
 
-    @Test(description = "Verify that all footer links open the correct pages")
-    @Story("Footer link navigation")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Logs in, clicks each footer link (X, Facebook, LinkedIn)")
     public void verifyFooterLinksNavigation() {
         Allure.step("Step 1: Log in with valid credentials", () -> {
             LoginPage login = new LoginPage(driver);
@@ -31,11 +32,9 @@ public class FooterLinksClickTest extends BaseTest {
                     "Inventory page not loaded after login");
         });
 
-        // Locate all footer links
         List<WebElement> footerLinks = driver.findElements(By.cssSelector(".social a"));
         Allure.step("Found " + footerLinks.size() + " footer links");
 
-        // Expected URLs or partial URLs
         List<String> expectedDestinations = new ArrayList<>();
         expectedDestinations.add("x.com/saucelabs");
         expectedDestinations.add("facebook.com/saucelabs");
@@ -50,18 +49,15 @@ public class FooterLinksClickTest extends BaseTest {
             Allure.step("Clicking footer link: " + href);
 
             link.click();
-
-            // Wait for a new tab or window to open
             Set<String> windowHandles = driver.getWindowHandles();
             Assert.assertTrue(windowHandles.size() > 1, "No new tab opened after clicking " + href);
 
-            // Switch to the new window
             for (String handle : windowHandles) {
                 if (!handle.equals(mainWindow)) {
                     driver.switchTo().window(handle);
                     break;
-                }
-            }
+                };
+            };
 
             Allure.step("Switched to new tab: " + driver.getCurrentUrl());
 
@@ -70,9 +66,8 @@ public class FooterLinksClickTest extends BaseTest {
 
             Assert.assertTrue(isExpected, "Unexpected destination: " + currentUrl);
 
-            // Close the new tab and return to main
             driver.close();
             driver.switchTo().window(mainWindow);
-        }
-    }
-}
+        };
+    };
+};

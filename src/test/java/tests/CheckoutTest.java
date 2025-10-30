@@ -16,12 +16,12 @@ import java.time.Duration;
 
 @Epic("E-Commerce Platform")
 @Feature("Checkout Process")
+@Test(description = "Verify that a user can complete the full checkout flow successfully")
+@Story("Complete purchase of an item")
+@Severity(SeverityLevel.CRITICAL)
+
 public class CheckoutTest extends BaseTest {
 
-    @Test(description = "Verify that a user can complete the full checkout flow successfully")
-    @Story("Complete purchase of an item")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Logs in, adds an item to the cart, enters checkout information, and verifies successful checkout completion.")
     public void checkoutFlowTest() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -55,5 +55,5 @@ public class CheckoutTest extends BaseTest {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("complete-header")));
             Assert.assertTrue(checkout.isCheckoutComplete(), "Checkout was not completed");
         });
-    }
-}
+    };
+};

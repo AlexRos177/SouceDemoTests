@@ -10,12 +10,12 @@ import pages.LoginPage;
 
 @Epic("Shopping Cart")
 @Feature("Add Items to Cart")
+@Test(description = "Verify that an items can be added to the cart successfully")
+@Story("Add products to cart")
+@Severity(SeverityLevel.CRITICAL)
+
 public class CartTest extends BaseTest {
 
-    @Test(description = "Verify that an items can be added to the cart successfully")
-    @Story("Add products to cart")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Logs in as a standard user, adds the items to the cart, navigates to the cart, and verifies that the items is present.")
     public void addToCartTest() {
 
         Allure.step("Step 1: Log in with valid credentials", () -> {
@@ -48,5 +48,5 @@ public class CartTest extends BaseTest {
             Assert.assertTrue(cart.isItemInCart(), "Item is not in the cart");
         });
 
-    }
-}
+    };
+};
